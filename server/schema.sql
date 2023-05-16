@@ -1,0 +1,34 @@
+CREATE DATABASE web_subscription;
+USE web_subscription;
+
+CREATE TABLE USERS (
+    id INTEGER AUTO_INCREMENT,
+    uuid varchar(64) UNIQUE NOT NULL,
+    username varchar(24) NOT NULL,
+    email varchar(255) UNIQUE NOT NULL,
+    password varchar(64) NOT NULL,
+    is_admin BOOLEAN DEFAULT 0 NOT NULL,
+    CONSTRAINT USERS_ID PRIMARY KEY (id)
+);
+
+CREATE TABLE SESSIONS (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    session varchar(64) NOT NULL,
+    user_id INTEGER NOT NULL,
+    CONSTRAINT SESSIONS_USER_ID FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
+);
+
+CREATE TABLE ORDERS (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    first_name varchar(64) NOT NULL,
+    last_name varchar(64) NOT NULL,
+    patronymic varchar(64) DEFAULT NULL,
+    address TEXT NOT NULL,
+    apartment TEXT NOT NULL,
+    room INTEGER DEFAULT NULL,
+    month_count INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    status INTEGER NOT NULL,
+    message TEXT DEFAULT NULL,
+    CONSTRAINT ORDERS_USER_ID FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
+);
