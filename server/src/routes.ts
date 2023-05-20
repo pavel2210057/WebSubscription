@@ -11,6 +11,8 @@ import { getSubscriptionList } from './route/GetSubscriptionList'
 import { getOrderList } from './route/GetOrderList'
 import { rejectOrder } from './route/RejectOrder'
 import { checkUserAdmin } from './route/CheckUserAdmin'
+import { orderPrice } from './route/OrderPrice'
+import { payOrder } from './route/PayOrder'
 
 const setupRoutes = (app: Express) => {
 
@@ -19,7 +21,9 @@ const setupRoutes = (app: Express) => {
     app.post('/user/logout', logoutUser)
     app.get('/user/check', checkUser)
     app.get('/address/search', searchAddress)
+    app.get('/order/price', orderPrice)
     app.post('/order/post', postOrder)
+    app.get('/order/payment/success', payOrder)
     app.get('/order/list', getSubscriptionList)
     app.get('/archive/list', newspaperList)
 

@@ -7,8 +7,8 @@ export namespace OrderRequests {
         const transport = nodemailer.createTransport({
             service: process.env.SERVER_EMAIL_SERVICE,
             auth: {
-                user: process.env.SERVICE_EMAIL_NAME,
-                pass: process.env.SERVICE_EMAIL_PASSWORD
+                user: process.env.SERVER_EMAIL_NAME,
+                pass: process.env.SERVER_EMAIL_PASSWORD
             }
         })
 
@@ -26,8 +26,10 @@ export namespace OrderRequests {
         ФИО: ${order.user.lastName} ${order.user.firstName} ${order.user.patronymic || ''}
         Email: ${order.user.email}
         Адрес: ${order.address}
-        Квартира: ${order.room}
+        Квартира: ${order.apartment}
         Комната: ${order.room || 'Пользователь не уточнил'}
         Срок подписки (количество месяцев): ${order.monthCount}
+
+        Обработать заказ можно во вкладке "Заявки на подписку" по ссылке: ${process.env.CLIENT_ORIGIN}/private/order/list
     `
 }

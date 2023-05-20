@@ -14,5 +14,6 @@ export type Order = {
     apartment: string,
     room: string | null,
     monthCount: number,
+    cost: number,
     status: OrderStatus
 }

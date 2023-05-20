@@ -25,14 +25,17 @@ export namespace OrderQueries {
         address: string, 
         apartment: string,
         room: string | null,
+        cost: number,
         monthCount: number,
         status: OrderStatus
     ) => {
         const sql = await connectSql()
 
         const [okPacket] = await sql.execute<OkPacket>(`
-            INSERT INTO ORDERS (first_name, last_name, patronymic, address, apartment, room, month_count, user_id, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [ firstName, lastName, patronymic, address, apartment, room, monthCount, userId, status ])         
+            INSERT INTO ORDERS (first_name, last_name, patronymic, address, apartment, room, month_count, user_id, cost, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [ 
+                    firstName, lastName, patronymic, address, apartment, room, monthCount, userId, cost, status
+                ])
         sql.end()
 
         return okPacket.insertId
@@ -48,7 +51,7 @@ export namespace OrderQueries {
     export const getAllOrders = async () => {
         const sql = await connectSql()
 
-        const [orders] = await sql.execute<IOrder[]>("SELECT * FROM ORDERS")
+        const [orders] = await sql.execute<IOrder[]>("SELECT * FROM ORDERS ORDER BY id DESC")
         sql.end()
 
         return orders
@@ -57,7 +60,7 @@ export namespace OrderQueries {
     export const getAllOrdersByUser = async (userId: string) => {
         const sql = await connectSql()
 
-        const [orders] = await sql.execute<IOrder[]>("SELECT * FROM ORDERS WHERE user_id=?", [ userId ])
+        const [orders] = await sql.execute<IOrder[]>("SELECT * FROM ORDERS WHERE user_id=? ORDER BY id DESC", [ userId ])
         sql.end()
 
         return orders
