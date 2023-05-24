@@ -11,7 +11,7 @@ export type Order = {
     id: string,
     user: User,
     address: string,
-    apartment: string,
+    apartment: number,
     room: string | null,
     monthCount: number,
     cost: number,

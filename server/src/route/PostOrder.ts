@@ -11,7 +11,7 @@ const postOrder = async (request: Request, response: Response) => {
         const lastName = requireBodyParam(request, "last_name")
         const patronymic = requireBodyParam(request, "patronymic")
         const address = requireBodyParam(request, "address")
-        const apartment = requireBodyParam(request, "apartment")
+        const apartment = Number.parseInt(requireBodyParam(request, "apartment"))
         const room = findBodyParam(request, "room")
         const monthCount = Number.parseInt(requireBodyParam(request, "month_count"))
 

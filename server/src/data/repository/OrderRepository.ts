@@ -1,4 +1,5 @@
 import { OrderStatus } from "../../domain/Order"
+import { Status } from "../../utils/statuses"
 import { OrderQueries } from "../local/OrderQueries"
 import { PriceQueries } from "../local/PriceQueries"
 import { OrderRequests } from "../remote/OrderRequests"
@@ -14,11 +15,14 @@ export namespace OrderRepository {
         lastName: string,
         patronymic: string | null,
         address: string, 
-        apartment: string, 
+        apartment: number, 
         room: string | null, 
         monthCount: number,
         status: OrderStatus
     ) => {
+        if (!validateOrder(firstName, lastName, address, apartment, monthCount))
+            throw Status.BadRequest
+
         const user = await UserRepository.getUserBySession(session)
 
         const price = await getPrice()
@@ -80,4 +84,23 @@ export namespace OrderRepository {
     export const payOrder = async (orderId: string) => {
         await OrderQueries.updateOrderStatusAndMessage(orderId, OrderStatus.Paid, "")
     }
+
+    const validateOrder = (
+        firstName: string,
+        lastName: string,
+        address: string, 
+        apartment: number,
+        monthCount: number
+    ) => validateFirstName(firstName) && validateLastName(lastName) && 
+            validateAddress(address) && validateApartment(apartment) && validateMonthCount(monthCount)
+
+    const validateFirstName = (firstName: string) => firstName.length > 0
+    
+    const validateLastName = (lastName: string) => lastName.length > 0
+
+    const validateAddress = (address: string) => address.length > 0
+
+    const validateApartment = (apartment: number) => apartment > 0
+
+    const validateMonthCount = (monthCount: number) => monthCount > 0 && monthCount <= 11 - new Date().getMonth()
 }

@@ -23,7 +23,7 @@ export namespace OrderQueries {
         lastName: string,
         patronymic: string | null,
         address: string, 
-        apartment: string,
+        apartment: number,
         room: string | null,
         cost: number,
         monthCount: number,

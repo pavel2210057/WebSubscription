@@ -9,8 +9,8 @@ export const rejectOrder = async (request: Request, response: Response) => {
         const session = requireSession(request)
 
         const user = await UserRepository.getUserBySession(session)
-        // if (!user.is_admin)
-        //     throw Status.Forbidden
+        if (!user.is_admin)
+            throw Status.Forbidden
 
         const orderId = requireBodyParam(request, "order_id")
         const message = requireBodyParam(request, "message")

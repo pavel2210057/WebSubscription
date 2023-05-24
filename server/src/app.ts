@@ -8,6 +8,8 @@ console.log(dotenv.config())
 
 const app = express()
 
+app.use('/static', express.static('../static'))
+
 app.use(json())
 app.use(cors({
     credentials: true,
